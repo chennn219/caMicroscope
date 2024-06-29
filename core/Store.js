@@ -1326,6 +1326,30 @@ class Store {
       mode: 'cors',
     }).then(this.errorHandler);
   }
+
+  // change
+  getSlidesByCollection() {
+    const suffix = `Slide/find`;
+    const url = this.base + suffix;
+    console.log(`Fetching slides from URL: ${url}`);
+        return fetch(url, {
+            credentials: 'include',
+            mode: 'cors',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(`Error fetching slides: ${data.message}`);
+                throw new Error(data.message || 'Error fetching slides');
+            }
+            console.log('Fetched slides data:', data);
+            return data;
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            return { error: true, text: error.message };
+        });
+}
   /**
    * get a collection info
    * @param {string} id - the mongo doc's id
