@@ -1082,6 +1082,37 @@ class Store {
     });
   }
 
+  // Update slide isqualified
+  updateSlideForQuality(id, {isQualified, rate, accuracy, isHumanmade } ) {
+    const suffix = 'Slide/update';
+    const url = this.base + suffix;
+    const query = {'_id': id};
+    const data = {};
+
+    if (isQualified) {
+      data['isQualified'] = isQualified;
+    }
+
+    if (rate) {
+      data['rate'] = rate;
+    }
+
+    if (accuracy) {
+      data['accuracy'] = accuracy;
+    }
+
+    if (typeof isHumanmade === 'boolean') {
+      data['isHumanmade'] = isHumanmade;
+  }
+
+    return fetch(url + '?' + objToParamStr(query), {
+      method: 'POST',
+      body: JSON.stringify(data),
+      credentials: 'include',
+      mode: 'cors',
+    }).then(this.errorHandler);
+  }
+
   addPresetLabels(labels) {
     const suffix = 'Presetlabels/add';
     const url = this.base + suffix;
