@@ -133,6 +133,9 @@ function setupPagination(totalSlides) {
     for (let i = 1; i <= totalPages; i++) {
         const pageItem = document.createElement('li');
         pageItem.classList.add('page-item');
+        if (i === $D.currentPage) {
+            pageItem.classList.add('active');
+        }
         const pageLink = document.createElement('a');
         pageLink.classList.add('page-link');
         pageLink.href = '#';
@@ -141,11 +144,16 @@ function setupPagination(totalSlides) {
             e.preventDefault();
             $D.currentPage = i;
             displaySlides($D.currentSlideData, $D.currentPage);
-            setupPagination($D.currentSlideData.length); // Update pagination
+            setupPagination($D.currentSlideData.length); 
         });
         pageItem.appendChild(pageLink);
         pagination.insertBefore(pageItem, pagination.children[pagination.children.length - 1]);
     }
+
+    const prevPage = document.getElementById('prev-page');
+    const nextPage = document.getElementById('next-page');
+    prevPage.replaceWith(prevPage.cloneNode(true));
+    nextPage.replaceWith(nextPage.cloneNode(true));
 
     document.getElementById('prev-page').addEventListener('click', (e) => {
         e.preventDefault();
@@ -188,7 +196,6 @@ function fetchSlides(collectionOid) {
         .catch((error) => {
             console.error('Error fetching slides:', error);
         });
-
 }
 
 function displaySlides(slides, page) {
@@ -253,7 +260,6 @@ function createSlideCard(slide) {
     const qualitySection = document.createElement('div');
     qualitySection.classList.add('quality-section');
 
-
     const isQualifiedRow = document.createElement('div');
     isQualifiedRow.classList.add('quality-row');
 
@@ -262,7 +268,6 @@ function createSlideCard(slide) {
     isQualifiedLable.textContent = 'IsQualified:';
     isQualifiedRow.appendChild(isQualifiedLable);
     
-
     const btnGroup = document.createElement('div');
     btnGroup.classList.add('btn-group', 'btn-group-sm');
 
@@ -442,8 +447,6 @@ function createSlideCard(slide) {
             falseLabel.classList.remove('active', getQualifiedClass('False'));
             falseLabel.classList.add('btn-outline-secondary');
         }
-    
-
     }
 
     function handleRadioClick(isQualified, label, otherLabels) {
